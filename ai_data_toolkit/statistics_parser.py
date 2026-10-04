@@ -2,6 +2,8 @@ import argparse
 
 from ai_data_toolkit import statistics_type
 from ai_data_toolkit.statistics import (
+    get_all_statistics,
+    get_correlation_matrix,
     get_descriptive_statistics,
     get_categorical_statistics,
     get_bar_chart,
@@ -61,7 +63,6 @@ def parse_arguments():
 
     add_file_argument(value_counts_parser)
     add_column_argument(value_counts_parser, required=True)
-
     value_counts_parser.add_argument(
         "-b",
         "--bar-chart",
@@ -69,9 +70,18 @@ def parse_arguments():
         help=get_bar_chart.__doc__
     )
 
+    correlation_parser = subparsers.add_parser(
+    "correlation",
+    help=get_correlation_matrix.__doc__,
+    description=get_correlation_matrix.__doc__
+    )
+    
+    add_file_argument(correlation_parser)
+
     all_parser = subparsers.add_parser(
         statistics_type.StatisticsType.ALL.value,
-        description="Calculate all supported statistics."
+        description=get_all_statistics.__doc__,
+        help=get_all_statistics.__doc__
     )
 
     add_file_argument(all_parser)
