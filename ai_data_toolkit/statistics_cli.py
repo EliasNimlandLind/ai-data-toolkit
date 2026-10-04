@@ -1,7 +1,6 @@
-import argparse
-
 import pandas as pd
 
+from ai_data_toolkit.statistics_parser import parse_arguments
 from ai_data_toolkit import statistics_type
 from ai_data_toolkit.statistics import (
     get_descriptive_statistics,
@@ -9,93 +8,6 @@ from ai_data_toolkit.statistics import (
     get_bar_chart,
     get_value_counts
 )
-
-
-def parse_arguments():
-    """Parse command-line arguments."""
-    parser = argparse.ArgumentParser(
-        description="Calculate statistics for a dataset."
-    )
-
-    subparsers = parser.add_subparsers(
-        dest="type",
-        required=True
-    )
-
-    descriptive_parser = subparsers.add_parser(
-        statistics_type.StatisticsType.DESCRIPTIVE.value,
-        help=get_descriptive_statistics.__doc__,
-        description=get_descriptive_statistics.__doc__
-    )
-
-    descriptive_parser.add_argument(
-        "-f",
-        "--file",
-        required=True,
-        help="The path to the file containing the dataset."
-    )
-
-    categorical_parser = subparsers.add_parser(
-        statistics_type.StatisticsType.CATEGORICAL.value,
-        help=get_categorical_statistics.__doc__,
-        description=get_categorical_statistics.__doc__
-    )
-
-    categorical_parser.add_argument(
-        "-f",
-        "--file",
-        required=True,
-        help="The path to the file containing the dataset."
-    )
-
-    value_counts_parser = subparsers.add_parser(
-        statistics_type.StatisticsType.VALUE_COUNTS.value,
-        help=get_value_counts.__doc__,
-        description=get_value_counts.__doc__
-    )
-
-    value_counts_parser.add_argument(
-        "-f",
-        "--file",
-        required=True,
-        help="The path to the file containing the dataset."
-    )
-
-    value_counts_parser.add_argument(
-        "-c",
-        "--column",
-        required=True,
-        help="The name of the column to calculate value counts for."
-    )
-
-    value_counts_parser.add_argument(
-        "-b",
-        "--bar-chart",
-        action="store_true",
-        help=get_bar_chart.__doc__
-    )
-
-    all_statistical_types_parser = subparsers.add_parser(
-        statistics_type.StatisticsType.ALL.value,
-        description="Calculate all supported statistics."
-    )
-
-    all_statistical_types_parser.add_argument(
-        "-f",
-        "--file",
-        required=True,
-        help="The path to the file containing the dataset."
-    )
-
-    all_statistical_types_parser.add_argument(
-        "-c",
-        "--column",
-        required=True,
-        help="The name of the column to calculate value counts for."
-    )
-
-    return parser.parse_args()
-
 
 def main():
     arguments = parse_arguments()

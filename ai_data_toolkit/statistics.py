@@ -13,7 +13,7 @@ def get_value_counts(dataframe, column):
     """Get the value counts for a specific column in the dataset."""
     return dataframe[column].value_counts()
 
-def get_bar_chart(dataframe, column, max_bar_length=100, padding_between_bar_and_category=15):
+def get_bar_chart(dataframe, column, max_bar_length=50, padding_between_bar_and_category=15):
     """Create a bar chart showing the frequency of values in a column."""
     value_counts = get_value_counts(dataframe, column)
     max_value_count = value_counts.max()

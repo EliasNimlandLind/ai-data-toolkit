@@ -1,0 +1,80 @@
+import argparse
+
+from ai_data_toolkit import statistics_type
+from ai_data_toolkit.statistics import (
+    get_descriptive_statistics,
+    get_categorical_statistics,
+    get_bar_chart,
+    get_value_counts
+)
+
+def add_file_argument(parser):
+    """Add the file argument to a parser."""
+    parser.add_argument(
+        "-f",
+        "--file",
+        required=True,
+        help="The path to the file containing the dataset."
+    )
+
+def add_column_argument(parser, required=False):
+    """Add the column argument to a parser."""
+    parser.add_argument(
+        "-c",
+        "--column",
+        required=required,
+        help=get_value_counts.__doc__
+    )
+
+def parse_arguments():
+    """Parse command-line arguments."""
+    parser = argparse.ArgumentParser(
+        description="Calculate statistics for a dataset."
+    )
+
+    subparsers = parser.add_subparsers(
+        dest="type",
+        required=True
+    )
+
+    descriptive_parser = subparsers.add_parser(
+        statistics_type.StatisticsType.DESCRIPTIVE.value,
+        help=get_descriptive_statistics.__doc__,
+        description=get_descriptive_statistics.__doc__
+    )
+
+    add_file_argument(descriptive_parser)
+
+    categorical_parser = subparsers.add_parser(
+        statistics_type.StatisticsType.CATEGORICAL.value,
+        help=get_categorical_statistics.__doc__,
+        description=get_categorical_statistics.__doc__
+    )
+
+    add_file_argument(categorical_parser)
+
+    value_counts_parser = subparsers.add_parser(
+        statistics_type.StatisticsType.VALUE_COUNTS.value,
+        help=get_value_counts.__doc__,
+        description=get_value_counts.__doc__
+    )
+
+    add_file_argument(value_counts_parser)
+    add_column_argument(value_counts_parser, required=True)
+
+    value_counts_parser.add_argument(
+        "-b",
+        "--bar-chart",
+        action="store_true",
+        help=get_bar_chart.__doc__
+    )
+
+    all_parser = subparsers.add_parser(
+        statistics_type.StatisticsType.ALL.value,
+        description="Calculate all supported statistics."
+    )
+
+    add_file_argument(all_parser)
+    add_column_argument(all_parser, required=True)
+
+    return parser.parse_args()
