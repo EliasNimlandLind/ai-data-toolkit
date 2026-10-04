@@ -3,8 +3,8 @@ import argparse
 import pandas as pd
 
 from ai_data_toolkit.statistics import (
-    calculate_descriptive_statistics,
-    calculate_categorical_statistics,
+    get_descriptive_statistics,
+    get_categorical_statistics,
 )
 
 def create_parser():
@@ -57,7 +57,7 @@ def create_parser():
 def run_statistics(arguments):
     dataframe = pd.read_csv(arguments.file)
 
-    statistics = calculate_descriptive_statistics(dataframe)
+    statistics = get_descriptive_statistics(dataframe)
 
     print(statistics)
 
@@ -65,7 +65,7 @@ def run_statistics(arguments):
 def run_categorical_statistics(arguments):
     dataframe = pd.read_csv(arguments.file)
 
-    statistics = calculate_categorical_statistics(dataframe)
+    statistics = get_categorical_statistics(dataframe)
 
     print(statistics)
 
