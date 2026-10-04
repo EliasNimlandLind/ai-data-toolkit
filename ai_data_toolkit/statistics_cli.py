@@ -2,13 +2,13 @@ import argparse
 
 import pandas as pd
 
+from ai_data_toolkit import statistics_type
 from ai_data_toolkit.statistics import (
     get_descriptive_statistics,
     get_categorical_statistics,
     get_bar_chart,
     get_value_counts
 )
-from ai_data_toolkit.statistics_type import StatisticsType
 
 def parse_arguments():
     """Parse command-line arguments."""
@@ -16,35 +16,71 @@ def parse_arguments():
         description="Calculate statistics for a dataset."
     )
 
-    parser.add_argument(
+    subparsers = parser.add_subparsers(
+        dest="type",
+        required=True
+    )
+
+    descriptive_parser = subparsers.add_parser(
+        statistics_type.StatisticsType.DESCRIPTIVE.value,
+        description=get_descriptive_statistics.__doc__
+    )
+
+    descriptive_parser.add_argument(
         "-f",
         "--file",
         required=True,
-        help="The path to the file containing the dataset.",
+        description="The path to the file containing the dataset."
     )
 
-    parser.add_argument(
-        "-t",
-        "--type",
-        choices=[StatisticsType.DESCRIPTIVE.value,
-                 StatisticsType.CATEGORICAL.value, 
-                 StatisticsType.VALUE_COUNTS.value, 
-                 StatisticsType.ALL.value],
-        default=StatisticsType.DESCRIPTIVE.value,
-        help="The type of statistics to calculate.",
+    categorical_parser = subparsers.add_parser(
+        statistics_type.StatisticsType.CATEGORICAL.value,
+        description=get_categorical_statistics.__doc__
     )
 
-    parser.add_argument(
-    "-c",
-    "--column",
-    help="The name of the column to base the chart on.",
+    categorical_parser.add_argument(
+        "-f",
+        "--file",
+        required=True,
+        description="The path to the file containing the dataset."
     )
 
-    parser.add_argument(
-    "-b",
-    "--bar-chart",
-    action="store_true",
-    help="Display value counts as a bar chart."
+    value_counts_parser = subparsers.add_parser(
+        statistics_type.StatisticsType.VALUE_COUNTS.value,
+        description=get_value_counts.__doc__
+    )
+
+    value_counts_parser.add_argument(
+        "-f",
+        "--file",
+        required=True,
+        description="The path to the file containing the dataset."
+    )
+
+    value_counts_parser.add_argument(
+        "-c",
+        "--column",
+        required=True,
+        description="The name of the column to calculate value counts for."
+    )
+
+    value_counts_parser.add_argument(
+        "-b",
+        "--bar-chart",
+        action="store_true",
+        description=get_bar_chart.__doc__
+    )
+
+    all_parser = subparsers.add_parser(
+        statistics_type.StatisticsType.ALL.value,
+        description="Calculate all dataset-level statistics."
+    )
+
+    all_parser.add_argument(
+        "-f",
+        "--file",
+        required=True,
+        description="The path to the file containing the dataset."
     )
 
     return parser.parse_args()
@@ -54,37 +90,31 @@ def main():
 
     dataframe = pd.read_csv(arguments.file)
 
-    match arguments.type:
-        case StatisticsType.DESCRIPTIVE.value:
-            statistics = get_descriptive_statistics(dataframe)
-        
-        case StatisticsType.CATEGORICAL.value:
-            statistics = get_categorical_statistics(dataframe)
-        
-        case StatisticsType.VALUE_COUNTS.value:
-            if not arguments.column:
-                print(
-                    "\x1b[31m"
-                    "Error: --column is required when using value_counts."
-                    "\x1b[0m"
-                )
-                return
+    if arguments.type == statistics_type.StatisticsType.DESCRIPTIVE.value:
+        statistics = get_descriptive_statistics(dataframe)
 
-            if arguments.bar_chart:
-                statistics = get_bar_chart(
-                    dataframe,
-                    arguments.column
-                )
-            else:
-                statistics = get_value_counts(
-                    dataframe,
-                    arguments.column
-                )
-            
-        case StatisticsType.ALL.value:
-            statistics = (f"\n{str(get_descriptive_statistics(dataframe))}\n\n"
-                          f"{str(get_categorical_statistics(dataframe))}\n"
-                          f"{get_bar_chart(dataframe, arguments.column)}")
+    elif arguments.type == statistics_type.StatisticsType.CATEGORICAL.value:
+        statistics = get_categorical_statistics(dataframe)
+
+    elif arguments.type == statistics_type.StatisticsType.VALUE_COUNTS.value:
+        if arguments.bar_chart:
+            statistics = get_bar_chart(
+                dataframe,
+                arguments.column
+            )
+        else:
+            statistics = get_value_counts(
+                dataframe,
+                arguments.column
+            )
+
+    elif arguments.type == statistics_type.StatisticsType.ALL.value:
+        statistics = (
+            f"\n=== Descriptive Statistics ===\n"
+            f"{get_descriptive_statistics(dataframe)}\n\n"
+            f"=== Categorical Statistics ===\n"
+            f"{get_categorical_statistics(dataframe)}"
+        )
 
     print(statistics)
 
