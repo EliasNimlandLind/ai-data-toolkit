@@ -20,10 +20,10 @@ def add_source_file_argument(parser):
     )
 
 def add_output_file_argument(parser):
-    """Add the save-to-file argument to a parser."""
+    """Add the output file argument to a parser."""
     parser.add_argument(
         "-o",
-        "--output_file",
+        "--output-file",
         dest="output_file",
         help="The path to the CSV file where the output should be saved."
     )
@@ -55,7 +55,7 @@ def get_parsed_arguments():
     )
 
     add_source_file_argument(descriptive_parser)
-    add_save_to_file_argument(descriptive_parser)
+    add_output_file_argument(descriptive_parser)
 
     categorical_parser = subparsers.add_parser(
         statistics_type.StatisticsType.CATEGORICAL.value,
@@ -64,7 +64,7 @@ def get_parsed_arguments():
     )
 
     add_source_file_argument(categorical_parser)
-    add_save_to_file_argument(categorical_parser)
+    add_output_file_argument(categorical_parser)
 
     value_counts_parser = subparsers.add_parser(
         statistics_type.StatisticsType.VALUE_COUNTS.value,
@@ -73,7 +73,7 @@ def get_parsed_arguments():
     )
 
     add_source_file_argument(value_counts_parser)
-    add_save_to_file_argument(value_counts_parser)
+    add_output_file_argument(value_counts_parser)
     add_column_argument(value_counts_parser, required=True)
 
     value_counts_parser.add_argument(
@@ -90,7 +90,7 @@ def get_parsed_arguments():
     )
     
     add_source_file_argument(correlation_parser)
-    add_save_to_file_argument(correlation_parser)
+    add_output_file_argument(correlation_parser)
 
     all_parser = subparsers.add_parser(
         statistics_type.StatisticsType.ALL.value,
