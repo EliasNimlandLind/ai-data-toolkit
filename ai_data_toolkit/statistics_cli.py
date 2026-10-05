@@ -7,44 +7,60 @@ from ai_data_toolkit.statistics import (
     get_descriptive_statistics,
     get_categorical_statistics,
     get_bar_chart,
-    get_value_counts, 
+    get_value_counts,
     get_correlation_matrix,
 )
 
 def main():
     arguments = get_parsed_arguments()
+
     try:
-        dataframe = pandas.read_csv(arguments.file)
+        dataframe = pandas.read_csv(arguments.source_file)
 
         statistics_to_print = ""
 
         match arguments.type:
             case statistics_type.StatisticsType.DESCRIPTIVE.value:
-                statistics_to_print = get_descriptive_statistics(dataframe)
+                statistics_to_print = f"\n\n{get_descriptive_statistics(dataframe)}"
 
             case statistics_type.StatisticsType.CATEGORICAL.value:
-                statistics_to_print = get_categorical_statistics(dataframe)
+                statistics_to_print = f"\n\n{get_categorical_statistics(dataframe)}"
 
             case statistics_type.StatisticsType.VALUE_COUNTS.value:
                 if arguments.bar_chart:
-                    statistics_to_print = get_bar_chart(
+                    statistics_to_print = f"\n\n{get_bar_chart(
                         dataframe,
                         arguments.column
-                    )
+                    )}"
                 else:
-                    statistics_to_print = get_value_counts(
+                    statistics_to_print = f"\n{get_value_counts(
                         dataframe,
                         arguments.column
-                    )
+                    )}"
 
             case statistics_type.StatisticsType.CORRELATION.value:
-                statistics_to_print = get_correlation_matrix(dataframe)
+                statistics_to_print = f"\n\n{get_correlation_matrix(dataframe)}"
 
             case statistics_type.StatisticsType.ALL.value:
-                statistics_to_print = get_all_statistics(dataframe, arguments.column)
+                statistics_to_print = f"\n\n{get_all_statistics(
+                    dataframe,
+                    arguments.column
+                )}"
+
+        if arguments.save_to_file:
+            with open(
+                arguments.save_to_file,
+                "a",
+                encoding="utf-8"
+            ) as file:
+                file.write(str(statistics_to_print))
 
         print(statistics_to_print)
+
     except FileNotFoundError:
-        print(f"Error: The file '{arguments.file}' was not found.")
+        print(
+            f"Error: The file '{arguments.file}' was not found."
+        )
+
 if __name__ == "__main__":
     main()
