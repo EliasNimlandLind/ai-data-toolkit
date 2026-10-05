@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class StatisticsType(Enum):
     DESCRIPTIVE = "descriptive"
     CATEGORICAL = "categorical"
