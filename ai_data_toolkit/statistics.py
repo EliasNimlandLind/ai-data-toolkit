@@ -67,7 +67,7 @@ def get_bar_chart(
     value_counts = get_value_counts(dataframe, column)
     max_value_count = value_counts.max()
 
-    bar_chart_as_string = ""
+    bar_chart_text = ""
     for current_category, current_count in value_counts.items():
         current_bar_length = int(
             (current_count / max_value_count) * max_bar_length
@@ -75,14 +75,14 @@ def get_bar_chart(
 
         current_bar = "█" * current_bar_length
 
-        bar_chart_as_string += (
+        bar_chart_text += (
             f"\n"
             f"{current_category:<{amount_of_padding_between_bar_and_category}} "
             f"{current_bar} "
             f"{current_count}\n"
         )
 
-    return bar_chart_as_string
+    return bar_chart_text
 
 def get_correlation_matrix(dataframe):
     """
@@ -106,16 +106,16 @@ def get_all_statistics(dataframe, column):
     validate_dataframe(dataframe)
     validate_column(dataframe, column)
 
-    descriptive_stats = get_descriptive_statistics(dataframe)
-    categorical_stats = get_categorical_statistics(dataframe)
+    descriptive_statistics = get_descriptive_statistics(dataframe)
+    categorical_statistics = get_categorical_statistics(dataframe)
     value_counts = get_value_counts(dataframe, column)
     bar_chart = get_bar_chart(dataframe, column)
 
     all_statistics_as_string = (
         f"\n=== Descriptive Statistics ===\n"
-        f"\n{descriptive_stats}\n\n"
+        f"\n{descriptive_statistics}\n\n"
         f"=== Categorical Statistics ===\n"
-        f"\n{categorical_stats}\n\n"
+        f"\n{categorical_statistics}\n\n"
         f"=== Value Counts ===\n\n"
         f"{value_counts}\n\n"
         f"=== Value Counts Bar Chart ===\n"
