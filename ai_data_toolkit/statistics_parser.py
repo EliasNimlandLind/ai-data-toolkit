@@ -28,6 +28,14 @@ def add_output_file_argument(parser):
         help="The path to the CSV file where the output should be saved."
     )
 
+    parser.add_argument(
+        "-om",
+        "--output-mode",
+        choices=["append", "overwrite"],
+        default="append",
+        help="Choose whether to append to or overwrite the output file."
+    )
+
 def add_column_argument(parser, required=False):
     """Add the column argument to a parser."""
     parser.add_argument(

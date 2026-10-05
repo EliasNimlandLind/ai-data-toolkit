@@ -48,12 +48,14 @@ def main():
                 )}"
 
         if arguments.output_file:
+            file_mode = "a" if arguments.output_mode == "append" else "w"
+
             with open(
                 arguments.output_file,
-                "a",
+                file_mode,
                 encoding="utf-8"
             ) as file:
-                file.write(str(statistics_to_print))
+                file.write(statistics_to_print)
 
         print(statistics_to_print)
 

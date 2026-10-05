@@ -12,7 +12,7 @@ dependencies = [
 ]
 
 [project.scripts]
-statistics = "ai_data_toolkit.statistics_cli:main"
+ai_data_toolkit = "ai_data_toolkit.statistics_cli:main"
 
 [tool.setuptools.packages.find]
 include = ["ai_data_toolkit*"]
