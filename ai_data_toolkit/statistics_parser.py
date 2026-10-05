@@ -19,12 +19,12 @@ def add_source_file_argument(parser):
         help="The path to the file containing the dataset."
     )
 
-def add_save_to_file_argument(parser):
+def output_argument(parser):
     """Add the save-to-file argument to a parser."""
     parser.add_argument(
-        "-stf",
-        "--save-to-file",
-        dest="save_to_file",
+        "-o",
+        "--output",
+        dest="output",
         help="The path to the CSV file where the output should be saved."
     )
 
