@@ -13,18 +13,18 @@ from ai_data_toolkit.statistics import (
 def add_source_file_argument(parser):
     """Add the file argument to a parser."""
     parser.add_argument(
-        "-sf",
+        "-s",
         "--source-file",
         required=True,
         help="The path to the file containing the dataset."
     )
 
-def output_argument(parser):
+def add_output_file_argument(parser):
     """Add the save-to-file argument to a parser."""
     parser.add_argument(
         "-o",
-        "--output",
-        dest="output",
+        "--output_file",
+        dest="output_file",
         help="The path to the CSV file where the output should be saved."
     )
 
