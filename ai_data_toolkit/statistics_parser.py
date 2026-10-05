@@ -28,7 +28,7 @@ def add_column_argument(parser, required=False):
         help=get_value_counts.__doc__
     )
 
-def parse_arguments():
+def get_parsed_arguments():
     """Parse command-line arguments."""
     parser = argparse.ArgumentParser(
         description="Calculate statistics for a dataset."

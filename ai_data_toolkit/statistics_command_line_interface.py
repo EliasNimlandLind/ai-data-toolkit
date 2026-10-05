@@ -1,6 +1,6 @@
 import pandas as pandas
 
-from ai_data_toolkit.statistics_parser import parse_arguments
+from ai_data_toolkit.statistics_parser import get_parsed_arguments
 from ai_data_toolkit import statistics_type
 from ai_data_toolkit.statistics import (
     get_all_statistics,
@@ -12,7 +12,7 @@ from ai_data_toolkit.statistics import (
 )
 
 def main():
-    arguments = parse_arguments()
+    arguments = get_parsed_arguments()
     try:
         dataframe = pandas.read_csv(arguments.file)
 
