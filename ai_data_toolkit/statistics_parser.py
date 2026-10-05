@@ -84,9 +84,9 @@ def get_parsed_arguments():
     )
 
     correlation_parser = subparsers.add_parser(
-    "correlation",
-    help=get_correlation_matrix.__doc__,
-    description=get_correlation_matrix.__doc__
+        statistics_type.StatisticsType.CORRELATION.value,
+        help=get_correlation_matrix.__doc__,
+        description=get_correlation_matrix.__doc__
     )
     
     add_source_file_argument(correlation_parser)
