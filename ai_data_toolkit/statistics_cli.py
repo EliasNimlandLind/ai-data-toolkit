@@ -47,9 +47,9 @@ def main():
                     arguments.column
                 )}"
 
-        if arguments.save_to_file:
+        if arguments.output_file:
             with open(
-                arguments.save_to_file,
+                arguments.output_file,
                 "a",
                 encoding="utf-8"
             ) as file:
